@@ -1,0 +1,214 @@
+import src.destinos.*
+import src.recuerdos.*
+import src.vehiculos.*
+import src.presidentes.*
+import src.modos.*
+
+describe "París | Verificar recuerdo típico" {
+    test "Given: París | When: consultamos recuerdo() | Then: debería retornar llaveroTorreEiffel" {
+        assert.equals(llaveroTorreEiffel, paris.recuerdo())
+    }
+}
+
+describe "París | Verificar restricciones de viaje" {
+    test "Given: Alambique veloz con 200 de combustible | When: consultamos noExistenRestricciones() | Then: debería retornar true" {
+        alambiqueVeloz.combustible(200)
+        assert.that(paris.noExistenRestricciones(alambiqueVeloz))
+    }
+
+    test "Given: Alambique veloz con 30 de combustible | When: consultamos noExistenRestricciones() | Then: debería retornar true" {
+        alambiqueVeloz.combustible(30)
+        assert.that(paris.noExistenRestricciones(alambiqueVeloz))
+    }
+
+    test "Given: Alambique veloz con 29 de combustible | When: consultamos noExistenRestricciones() | Then: debería retornar false" {
+        alambiqueVeloz.combustible(29)
+        assert.that(!paris.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Buenos Aires | Verificar recuerdo según presidente" {
+    test "Given: Buenos Aires con presidente Milei | When: consultamos recuerdo() | Then: debería retornar mate con yerba" {
+        buenosaires.presidente(milei)
+        assert.that(buenosaires.recuerdo() == mate && mate.tieneYerba())
+    }
+
+    test "Given: Buenos Aires con presidente Fernández | When: consultamos recuerdo() | Then: debería retornar mate sin yerba" {
+        buenosaires.presidente(fernandez)
+        assert.that(buenosaires.recuerdo() == mate && !mate.tieneYerba())
+    }
+}
+
+describe "Buenos Aires | Verificar restricciones de viaje" {
+    test "Given: Super convertible en modo alfombra voladora | When: consultamos noExistenRestricciones() | Then: debería retornar true" {
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        assert.that(buenosaires.noExistenRestricciones(elSuperConvertible))
+    }
+
+    test "Given: Alambique veloz | When: consultamos noExistenRestricciones() | Then: debería retornar false (no es rápido)" {
+        assert.that(!buenosaires.noExistenRestricciones(alambiqueVeloz))
+    }
+
+    test "Given: Antigualla blindada con 2 gangsters | When: consultamos noExistenRestricciones() | Then: debería retornar true" {
+        laAntiguallaBlindada.cantGangster(2)
+        assert.that(buenosaires.noExistenRestricciones(laAntiguallaBlindada))
+    }
+
+    test "Given: Antigualla blindada con 5 gangsters | When: consultamos noExistenRestricciones() | Then: debería retornar false" {
+        laAntiguallaBlindada.cantGangster(5)
+        assert.that(!buenosaires.noExistenRestricciones(laAntiguallaBlindada))
+    }
+}
+
+describe "Bagdad | Verificar recuerdo configurable" {
+    test "Given: Bagdad con recuerdo bidonDePetroleo | When: consultamos recuerdo() | Then: debería retornar bidonDePetroleo" {
+        bagdad.recuerdo(bidonDePetroleo)
+        assert.equals(bidonDePetroleo, bagdad.recuerdo())
+    }
+
+    test "Given: Bagdad con recuerdo armaDeDestruccionMasiva | When: consultamos recuerdo() | Then: debería retornar armaDeDestruccionMasiva" {
+        bagdad.recuerdo(armaDeDestruccionMasiva)
+        assert.equals(armaDeDestruccionMasiva, bagdad.recuerdo())
+    }
+
+    test "Given: Bagdad con recuerdo replicaJardinesColgantesBabilonia | When: consultamos recuerdo() | Then: debería retornar replicaJardinesColgantesBabilonia" {
+        bagdad.recuerdo(replicaJardinesColgantesBabilonia)
+        assert.equals(replicaJardinesColgantesBabilonia, bagdad.recuerdo())
+    }
+}
+
+describe "Bagdad | Verificar restricciones de viaje" {
+    test "Given: Alambique veloz sin combustible | When: consultamos noExistenRestricciones() | Then: debería retornar true (sin restricciones)" {
+        alambiqueVeloz.combustible(0)
+        assert.that(bagdad.noExistenRestricciones(alambiqueVeloz))
+    }
+
+    test "Given: Alambique veloz lento | When: consultamos noExistenRestricciones() | Then: debería retornar true (sin restricciones)" {
+        assert.that(bagdad.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Las Vegas | Verificar homenaje a París" {
+    test "Given: Las Vegas conmemora a París | When: consultamos recuerdo() | Then: debería retornar llaveroTorreEiffel" {
+        lasvegas.conmemora(paris)
+        assert.equals(llaveroTorreEiffel, lasvegas.recuerdo())
+    }
+
+    test "Given: Las Vegas conmemora a París y alambique veloz con 200 de combustible | When: consultamos noExistenRestricciones() | Then: debería retornar true" {
+        lasvegas.conmemora(paris)
+        alambiqueVeloz.combustible(200)
+        assert.that(lasvegas.noExistenRestricciones(alambiqueVeloz))
+    }
+
+    test "Given: Las Vegas conmemora a París y alambique veloz con 20 de combustible | When: consultamos noExistenRestricciones() | Then: debería retornar false" {
+        lasvegas.conmemora(paris)
+        alambiqueVeloz.combustible(20)
+        assert.that(!lasvegas.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Las Vegas | Verificar homenaje a Buenos Aires" {
+    test "Given: Las Vegas conmemora a Buenos Aires con presidente Milei | When: consultamos recuerdo() | Then: debería retornar mate con yerba" {
+        lasvegas.conmemora(buenosaires)
+        buenosaires.presidente(milei)
+        assert.that(lasvegas.recuerdo() == mate && mate.tieneYerba())
+    }
+
+    test "Given: Las Vegas conmemora a Buenos Aires y super convertible en modo alfombra | When: consultamos noExistenRestricciones() | Then: debería retornar true" {
+        lasvegas.conmemora(buenosaires)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        assert.that(lasvegas.noExistenRestricciones(elSuperConvertible))
+    }
+
+    test "Given: Las Vegas conmemora a Buenos Aires y alambique veloz | When: consultamos noExistenRestricciones() | Then: debería retornar false" {
+        lasvegas.conmemora(buenosaires)
+        assert.that(!lasvegas.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Las Vegas | Verificar homenaje a Bagdad" {
+    test "Given: Las Vegas conmemora a Bagdad | When: consultamos recuerdo() | Then: debería retornar el recuerdo de Bagdad" {
+        lasvegas.conmemora(bagdad)
+        bagdad.recuerdo(armaDeDestruccionMasiva)
+        assert.equals(armaDeDestruccionMasiva, lasvegas.recuerdo())
+    }
+
+    test "Given: Las Vegas conmemora a Bagdad | When: consultamos noExistenRestricciones() | Then: debería retornar true (sin restricciones)" {
+        lasvegas.conmemora(bagdad)
+        alambiqueVeloz.combustible(0)
+        assert.that(lasvegas.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Las Vegas | Verificar homenaje a Japón" {
+    test "Given: Las Vegas conmemora a Japón | When: consultamos recuerdo() | Then: debería retornar bonsai" {
+        lasvegas.conmemora(japon)
+        assert.equals(bonsai, lasvegas.recuerdo())
+    }
+
+    test "Given: Las Vegas conmemora a Japón | When: consultamos noExistenRestricciones() | Then: debería retornar true (sin restricciones)" {
+        lasvegas.conmemora(japon)
+        assert.that(lasvegas.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Japón | Verificar recuerdo típico" {
+    test "Given: Japón | When: consultamos recuerdo() | Then: debería retornar bonsai" {
+        assert.equals(bonsai, japon.recuerdo())
+    }
+}
+
+describe "Japón | Verificar restricciones de viaje" {
+    test "Given: Cualquier vehículo | When: consultamos noExistenRestricciones() | Then: debería retornar true (sin restricciones)" {
+        assert.that(japon.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Buenos Aires | Verificar cambios de presidente" {
+    test "Given: Buenos Aires con Milei | When: cambiamos a Fernández y consultamos recuerdo() | Then: mate no debería tener yerba" {
+        buenosaires.presidente(milei)
+        buenosaires.presidente(fernandez)
+        assert.that(buenosaires.recuerdo() == mate && !mate.tieneYerba())
+    }
+
+    test "Given: Buenos Aires con Fernández | When: cambiamos a Milei y consultamos recuerdo() | Then: mate debería tener yerba" {
+        buenosaires.presidente(fernandez)
+        buenosaires.presidente(milei)
+        assert.that(buenosaires.recuerdo() == mate && mate.tieneYerba())
+    }
+}
+
+describe "Las Vegas | Verificar cambios de conmemoración" {
+    test "Given: Las Vegas conmemora París | When: cambiamos a conmemorar Japón | Then: debería retornar bonsai" {
+        lasvegas.conmemora(paris)
+        lasvegas.conmemora(japon)
+        assert.equals(bonsai, lasvegas.recuerdo())
+    }
+
+    test "Given: Las Vegas conmemora Buenos Aires | When: cambiamos a conmemorar Bagdad | Then: debería retornar el recuerdo de Bagdad" {
+        lasvegas.conmemora(buenosaires)
+        lasvegas.conmemora(bagdad)
+        bagdad.recuerdo(bidonDePetroleo)
+        assert.equals(bidonDePetroleo, lasvegas.recuerdo())
+    }
+
+    test "Given: Las Vegas conmemora París con alambique sin combustible | When: cambiamos a conmemorar Bagdad | Then: debería poder viajar" {
+        lasvegas.conmemora(paris)
+        alambiqueVeloz.combustible(0)
+        lasvegas.conmemora(bagdad)
+        assert.that(lasvegas.noExistenRestricciones(alambiqueVeloz))
+    }
+}
+
+describe "Bagdad | Verificar todos los recuerdos posibles" {
+    test "Given: Bagdad | When: cambiamos recuerdo a bidonDePetroleo | Then: debería retornar bidonDePetroleo" {
+        bagdad.recuerdo(bidonDePetroleo)
+        assert.equals(bidonDePetroleo, bagdad.recuerdo())
+    }
+
+    test "Given: Bagdad con armaDeDestruccionMasiva | When: cambiamos a replicaJardinesColgantesBabilonia | Then: debería retornar replicaJardinesColgantesBabilonia" {
+        bagdad.recuerdo(armaDeDestruccionMasiva)
+        bagdad.recuerdo(replicaJardinesColgantesBabilonia)
+        assert.equals(replicaJardinesColgantesBabilonia, bagdad.recuerdo())
+    }
+}

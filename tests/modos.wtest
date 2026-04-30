@@ -1,0 +1,19 @@
+import src.vehiculos.*
+
+describe "Modo Estándar | Verificar velocidad" {
+    test "Given: Modo estándar | When: consultamos esVeloz() | Then: debería retornar false" {
+        assert.that(!modoEstandar.esVeloz())
+    }
+}
+
+describe "Modo Bola de Bowling | Verificar velocidad" {
+    test "Given: Modo bola de bowling | When: consultamos esVeloz() | Then: debería retornar false" {
+        assert.that(!modoBolaDeBowling.esVeloz())
+    }
+}
+
+describe "Modo Alfombra Voladora | Verificar velocidad" {
+    test "Given: Modo alfombra voladora | When: consultamos esVeloz() | Then: debería retornar true" {
+        assert.that(modoAlfombraVoladora.esVeloz())
+    }
+}

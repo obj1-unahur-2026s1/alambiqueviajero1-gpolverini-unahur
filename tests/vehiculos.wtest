@@ -1,0 +1,185 @@
+import src.vehiculos.*
+import src.destinos.*
+import src.modos.*
+
+describe "Alambique Veloz | Verificar consumo de combustible" {
+    test "Given: Alambique veloz con 200 de combustible | When: conduce a París | Then: debería quedar con 170 de combustible" {
+        alambiqueVeloz.combustible(200)
+        alambiqueVeloz.conducir(paris)
+        assert.equals(170, alambiqueVeloz.combustible())
+    }
+
+    test "Given: Alambique veloz con 20 de combustible | When: conduce a París | Then: debería quedar con 0 de combustible" {
+        alambiqueVeloz.combustible(20)
+        alambiqueVeloz.conducir(paris)
+        assert.equals(0, alambiqueVeloz.combustible())
+    }
+
+    test "Given: Alambique veloz con 0 de combustible | When: conduce a París | Then: debería quedar con 0 de combustible" {
+        alambiqueVeloz.combustible(0)
+        alambiqueVeloz.conducir(paris)
+        assert.equals(0, alambiqueVeloz.combustible())
+    }
+}
+
+describe "Alambique Veloz | Verificar suficiencia de combustible" {
+    test "Given: Alambique veloz con 200 de combustible | When: consultamos tieneSuficienteCombustible() | Then: debería retornar true" {
+        alambiqueVeloz.combustible(200)
+        assert.that(alambiqueVeloz.tieneSuficienteCombustible())
+    }
+
+    test "Given: Alambique veloz con 30 de combustible | When: consultamos tieneSuficienteCombustible() | Then: debería retornar true" {
+        alambiqueVeloz.combustible(30)
+        assert.that(alambiqueVeloz.tieneSuficienteCombustible())
+    }
+
+    test "Given: Alambique veloz con 29 de combustible | When: consultamos tieneSuficienteCombustible() | Then: debería retornar false" {
+        alambiqueVeloz.combustible(29)
+        assert.that(!alambiqueVeloz.tieneSuficienteCombustible())
+    }
+}
+
+describe "Alambique Veloz | Verificar velocidad" {
+    test "Given: Alambique veloz | When: consultamos esRapido() | Then: debería retornar false" {
+        assert.that(!alambiqueVeloz.esRapido())
+    }
+}
+
+describe "Super Chatarra Especial | Verificar consumo de combustible basado en armamento" {
+    test "Given: Super chatarra con 200 de combustible | When: conduce a París | Then: debería quedar con 160 de combustible (consume 40)" {
+        superChatarraEspecial.combustible(200)
+        superChatarraEspecial.conducir(paris)
+        assert.equals(160, superChatarraEspecial.combustible())
+    }
+
+    test "Given: Super chatarra con 30 de combustible | When: conduce a París | Then: debería quedar con 0 de combustible" {
+        superChatarraEspecial.combustible(30)
+        superChatarraEspecial.conducir(paris)
+        assert.equals(0, superChatarraEspecial.combustible())
+    }
+}
+
+describe "Super Chatarra Especial | Verificar suficiencia de combustible" {
+    test "Given: Super chatarra con 1 de combustible | When: consultamos tieneSuficienteCombustible() | Then: debería retornar true" {
+        superChatarraEspecial.combustible(1)
+        assert.that(superChatarraEspecial.tieneSuficienteCombustible())
+    }
+
+    test "Given: Super chatarra con 0 de combustible | When: consultamos tieneSuficienteCombustible() | Then: debería retornar false" {
+        superChatarraEspecial.combustible(0)
+        assert.that(!superChatarraEspecial.tieneSuficienteCombustible())
+    }
+}
+
+describe "Super Chatarra Especial | Verificar velocidad" {
+    test "Given: Super chatarra especial | When: consultamos esRapido() | Then: debería retornar false" {
+        assert.that(!superChatarraEspecial.esRapido())
+    }
+}
+
+describe "La Antigualla Blindada | Verificar velocidad según cantidad de gangsters" {
+    test "Given: Antigualla blindada con 7 gangsters | When: consultamos esRapido() | Then: debería retornar false" {
+        laAntiguallaBlindada.cantGangster(7)
+        assert.that(!laAntiguallaBlindada.esRapido())
+    }
+
+    test "Given: Antigualla blindada con 4 gangsters | When: consultamos esRapido() | Then: debería retornar false" {
+        laAntiguallaBlindada.cantGangster(4)
+        assert.that(!laAntiguallaBlindada.esRapido())
+    }
+
+    test "Given: Antigualla blindada con 3 gangsters | When: consultamos esRapido() | Then: debería retornar true" {
+        laAntiguallaBlindada.cantGangster(3)
+        assert.that(laAntiguallaBlindada.esRapido())
+    }
+
+    test "Given: Antigualla blindada con 0 gangsters | When: consultamos esRapido() | Then: debería retornar true" {
+        laAntiguallaBlindada.cantGangster(0)
+        assert.that(laAntiguallaBlindada.esRapido())
+    }
+}
+
+describe "La Antigualla Blindada | Verificar suficiencia de combustible" {
+    test "Given: Antigualla blindada | When: consultamos tieneSuficienteCombustible() | Then: debería retornar true" {
+        assert.that(laAntiguallaBlindada.tieneSuficienteCombustible())
+    }
+}
+
+describe "El Super Convertible | Verificar velocidad según modo" {
+    test "Given: Super convertible en modo estándar | When: consultamos esRapido() | Then: debería retornar false" {
+        elSuperConvertible.convertir(modoEstandar)
+        assert.that(!elSuperConvertible.esRapido())
+    }
+
+    test "Given: Super convertible en modo bola de bowling | When: consultamos esRapido() | Then: debería retornar false" {
+        elSuperConvertible.convertir(modoBolaDeBowling)
+        assert.that(!elSuperConvertible.esRapido())
+    }
+
+    test "Given: Super convertible en modo alfombra voladora | When: consultamos esRapido() | Then: debería retornar true" {
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        assert.that(elSuperConvertible.esRapido())
+    }
+}
+
+describe "El Super Convertible | Verificar suficiencia de combustible" {
+    test "Given: Super convertible | When: consultamos tieneSuficienteCombustible() | Then: debería retornar true" {
+        assert.that(elSuperConvertible.tieneSuficienteCombustible())
+    }
+}
+
+describe "Super Chatarra Especial | Verificar múltiples viajes" {
+    test "Given: Super chatarra con 200 de combustible | When: conduce 5 veces | Then: debería quedar con 0 de combustible" {
+        superChatarraEspecial.combustible(200)
+        superChatarraEspecial.conducir(paris)
+        superChatarraEspecial.conducir(paris)
+        superChatarraEspecial.conducir(paris)
+        superChatarraEspecial.conducir(paris)
+        superChatarraEspecial.conducir(paris)
+        assert.equals(0, superChatarraEspecial.combustible())
+    }
+}
+
+describe "Alambique Veloz | Verificar múltiples viajes" {
+    test "Given: Alambique veloz con 100 de combustible | When: conduce 3 veces | Then: debería quedar con 10 de combustible" {
+        alambiqueVeloz.combustible(100)
+        alambiqueVeloz.conducir(paris)
+        alambiqueVeloz.conducir(paris)
+        alambiqueVeloz.conducir(paris)
+        assert.equals(10, alambiqueVeloz.combustible())
+    }
+}
+
+describe "La Antigualla Blindada | Verificar cambios de gangsters" {
+    test "Given: Antigualla con 10 gangsters | When: reducimos a 1 gangster | Then: debería ser rápido" {
+        laAntiguallaBlindada.cantGangster(10)
+        laAntiguallaBlindada.cantGangster(1)
+        assert.that(laAntiguallaBlindada.esRapido())
+    }
+
+    test "Given: Antigualla con 1 gangster | When: aumentamos a 10 gangsters | Then: no debería ser rápido" {
+        laAntiguallaBlindada.cantGangster(1)
+        laAntiguallaBlindada.cantGangster(10)
+        assert.that(!laAntiguallaBlindada.esRapido())
+    }
+}
+
+describe "El Super Convertible | Verificar cambios de modo" {
+    test "Given: Super convertible en modo alfombra | When: cambiamos a modo estándar | Then: no debería ser rápido" {
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        elSuperConvertible.convertir(modoEstandar)
+        assert.that(!elSuperConvertible.esRapido())
+    }
+
+    test "Given: Super convertible en modo estándar | When: cambiamos a modo bola de bowling | Then: no debería ser rápido" {
+        elSuperConvertible.convertir(modoEstandar)
+        elSuperConvertible.convertir(modoBolaDeBowling)
+        assert.that(!elSuperConvertible.esRapido())
+    }
+
+    test "Given: Super convertible en modo bola de bowling | When: cambiamos a modo alfombra | Then: debería ser rápido" {
+        elSuperConvertible.convertir(modoBolaDeBowling)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        assert.that(elSuperConvertible.esRapido())
+    }
+}

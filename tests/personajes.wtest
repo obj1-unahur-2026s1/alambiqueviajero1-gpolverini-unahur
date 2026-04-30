@@ -1,0 +1,153 @@
+import src.personajes.*
+import src.destinos.*
+import src.vehiculos.*
+import src.recuerdos.*
+import src.modos.*
+import src.presidentes.*
+
+describe "Luke | Verificar viajes y conteo de lugares visitados" {
+    test "Given: Luke no ha viajado | When: consultamos cuantosLugaresVisito() | Then: debería retornar 0" {
+        assert.equals(0, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke viaja a París con alambique veloz | When: consultamos cuantosLugaresVisito() | Then: debería retornar 1" {
+        luke.viajar(paris)
+        assert.equals(1, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke viaja a París y luego a Bagdad | When: consultamos cuantosLugaresVisito() | Then: debería retornar 2" {
+        luke.viajar(paris)
+        luke.viajar(bagdad)
+        assert.equals(2, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke intenta viajar a Buenos Aires con alambique veloz | When: consultamos cuantosLugaresVisito() | Then: debería retornar 0 (no puede ir)" {
+        luke.viajar(buenosaires)
+        assert.equals(0, luke.cuantosLugaresVisito())
+    }
+}
+
+describe "Luke | Verificar recuerdos de viajes" {
+    test "Given: Luke no ha viajado | When: consultamos ultimoRecuerdo() | Then: debería retornar null" {
+        assert.equals(null, luke.ultimoRecuerdo())
+    }
+
+    test "Given: Luke viaja a París | When: consultamos ultimoRecuerdo() | Then: debería retornar llaveroTorreEiffel" {
+        luke.viajar(paris)
+        assert.equals(llaveroTorreEiffel, luke.ultimoRecuerdo())
+    }
+
+    test "Given: Luke viaja a París y luego a Bagdad | When: consultamos ultimoRecuerdo() | Then: debería retornar bidonDePetroleo" {
+        luke.viajar(paris)
+        luke.viajar(bagdad)
+        assert.equals(bidonDePetroleo, luke.ultimoRecuerdo())
+    }
+
+    test "Given: Luke viaja a Japón | When: consultamos ultimoRecuerdo() | Then: debería retornar bonsai" {
+        luke.viajar(japon)
+        assert.equals(bonsai, luke.ultimoRecuerdo())
+    }
+}
+
+describe "Luke | Verificar cambio de vehículo" {
+    test "Given: Luke cambia a superConvertible en modo alfombra voladora | When: viaja a Buenos Aires | Then: debería poder viajar" {
+        luke.cambiarDeVehiculo(elSuperConvertible)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        luke.viajar(buenosaires)
+        assert.equals(1, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke cambia a laAntiguallaBlindada con 2 gangsters | When: viaja a Buenos Aires | Then: debería poder viajar" {
+        luke.cambiarDeVehiculo(laAntiguallaBlindada)
+        laAntiguallaBlindada.cantGangster(2)
+        luke.viajar(buenosaires)
+        assert.equals(1, luke.cuantosLugaresVisito())
+    }
+}
+
+describe "Luke | Verificar restricciones de viaje" {
+    test "Given: Alambique veloz sin combustible | When: Luke intenta viajar a París | Then: no debería viajar" {
+        alambiqueVeloz.combustible(0)
+        luke.cambiarDeVehiculo(alambiqueVeloz)
+        luke.viajar(paris)
+        assert.equals(0, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke con alambique veloz | When: intenta viajar a Buenos Aires | Then: no debería viajar (no es rápido)" {
+        luke.cambiarDeVehiculo(alambiqueVeloz)
+        luke.viajar(buenosaires)
+        assert.equals(0, luke.cuantosLugaresVisito())
+    }
+}
+
+describe "Luke | Verificar escenarios de integración complejos" {
+    test "Given: Luke viaja a París, luego a Bagdad, luego a Japón | When: consultamos cuantosLugaresVisito() | Then: debería retornar 3" {
+        luke.viajar(paris)
+        luke.viajar(bagdad)
+        luke.viajar(japon)
+        assert.equals(3, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke viaja a París con alambique, cambia a super convertible y viaja a Buenos Aires | When: consultamos cuantosLugaresVisito() | Then: debería retornar 2" {
+        luke.cambiarDeVehiculo(alambiqueVeloz)
+        luke.viajar(paris)
+        luke.cambiarDeVehiculo(elSuperConvertible)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        luke.viajar(buenosaires)
+        assert.equals(2, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke intenta viajar a Buenos Aires con alambique, luego cambia a super convertible rápido | When: viaja a Buenos Aires | Then: debería tener 1 lugar visitado" {
+        luke.cambiarDeVehiculo(alambiqueVeloz)
+        luke.viajar(buenosaires)
+        luke.cambiarDeVehiculo(elSuperConvertible)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        luke.viajar(buenosaires)
+        assert.equals(1, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Luke viaja a Bagdad, cambiamos el recuerdo de Bagdad, Luke viaja de nuevo | When: consultamos ultimoRecuerdo() | Then: debería retornar el nuevo recuerdo" {
+        bagdad.recuerdo(bidonDePetroleo)
+        luke.viajar(bagdad)
+        bagdad.recuerdo(armaDeDestruccionMasiva)
+        luke.viajar(bagdad)
+        assert.equals(armaDeDestruccionMasiva, luke.ultimoRecuerdo())
+    }
+
+    test "Given: Buenos Aires con Milei, Luke viaja, cambia presidente a Fernández, Luke viaja de nuevo | When: consultamos que mate no tenga yerba | Then: debería ser correcto" {
+        buenosaires.presidente(milei)
+        luke.cambiarDeVehiculo(elSuperConvertible)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        luke.viajar(buenosaires)
+        buenosaires.presidente(fernandez)
+        luke.viajar(buenosaires)
+        assert.that(!mate.tieneYerba())
+    }
+
+    test "Given: Super convertible en modo alfombra, Luke viaja a Buenos Aires, cambia a modo estándar | When: intenta viajar de nuevo | Then: no debería poder viajar" {
+        luke.cambiarDeVehiculo(elSuperConvertible)
+        elSuperConvertible.convertir(modoAlfombraVoladora)
+        luke.viajar(buenosaires)
+        elSuperConvertible.convertir(modoEstandar)
+        luke.viajar(buenosaires)
+        assert.equals(1, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Antigualla con 3 gangsters viaja a Buenos Aires, aumentamos gangsters a 5 | When: intenta viajar de nuevo | Then: no debería poder viajar" {
+        luke.cambiarDeVehiculo(laAntiguallaBlindada)
+        laAntiguallaBlindada.cantGangster(3)
+        luke.viajar(buenosaires)
+        laAntiguallaBlindada.cantGangster(5)
+        luke.viajar(buenosaires)
+        assert.equals(1, luke.cuantosLugaresVisito())
+    }
+
+    test "Given: Las Vegas conmemora París, Luke viaja, cambiamos a conmemorar Bagdad, Luke viaja de nuevo | When: consultamos ultimoRecuerdo() | Then: debería ser el recuerdo de Bagdad" {
+        lasvegas.conmemora(paris)
+        luke.viajar(lasvegas)
+        lasvegas.conmemora(bagdad)
+        bagdad.recuerdo(replicaJardinesColgantesBabilonia)
+        luke.viajar(lasvegas)
+        assert.equals(replicaJardinesColgantesBabilonia, luke.ultimoRecuerdo())
+    }
+}

@@ -1,0 +1,13 @@
+import src.presidentes.*
+
+describe "Milei | Verificar política de yerba" {
+    test "Given: Milei | When: consultamos conYerba() | Then: debería retornar true" {
+        assert.that(milei.conYerba())
+    }
+}
+
+describe "Fernández | Verificar política de yerba" {
+    test "Given: Fernández | When: consultamos conYerba() | Then: debería retornar false" {
+        assert.that(!fernandez.conYerba())
+    }
+}

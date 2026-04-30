@@ -1,0 +1,25 @@
+import src.recuerdos.*
+
+describe "Mate | Verificar propiedad tieneYerba" {
+    test "Given: Mate con tieneYerba en false | When: consultamos tieneYerba() | Then: debería retornar false" {
+        mate.tieneYerba(false)
+        assert.that(!mate.tieneYerba())
+    }
+
+    test "Given: Mate con tieneYerba en true | When: consultamos tieneYerba() | Then: debería retornar true" {
+        mate.tieneYerba(true)
+        assert.that(mate.tieneYerba())
+    }
+
+    test "Given: Mate sin yerba | When: cambiamos a tieneYerba(true) | Then: debería retornar true" {
+        mate.tieneYerba(false)
+        mate.tieneYerba(true)
+        assert.that(mate.tieneYerba())
+    }
+
+    test "Given: Mate con yerba | When: cambiamos a tieneYerba(false) | Then: debería retornar false" {
+        mate.tieneYerba(true)
+        mate.tieneYerba(false)
+        assert.that(!mate.tieneYerba())
+    }
+}
